@@ -58,7 +58,7 @@
       <!-- platform assets -->
       <a-asset-item id="base" src="assets/glbs/A.Renewal/A.Renewal.platform.glb"></a-asset-item>
       <!-- <a-asset-item id="base" src="assets/glbs/tranquility/test-platform.glb"></a-asset-item> -->
-      <!-- <a-asset-item id="base-water" src="assets/glbs/tranquility/platform_water.glb"></a-asset-item> -->
+      <a-asset-item id="base-water" src="assets/glbs/A.Renewal/A.Renewal.water.glb"></a-asset-item>
       <!-- end of platform assets -->
 
       <!-- sculpture assets -->
@@ -107,8 +107,8 @@
 
           <!-- <a-entity id="portal-contents"> -->
           <!-- <a-entity id="test" gltf-model="#testModel" scale="5 5 5" rotation="0 -90 0" position="0 0 -20" basic-env></a-entity> -->
-          <a-entity id="floor" gltf-model="#base" scale="20 5 20" rotation="0 0 0" position="0 -4 0" basic-env>
-          </a-entity>
+          <a-entity id="floor" gltf-model="#base" scale="20 20 20" rotation="0 0 0" position="0 -4 4" basic-env></a-entity>
+          <a-entity id="floor-water" gltf-model="#base-water" scale="20 20 20" rotation="0 0 0" position="0 -5 4" basic-env></a-entity>
 
           <a-entity id="door1" class="hoverable" door-hover="name:Tranquility; bgID: world1-bg; rot:-145" gltf-model="#door1-model" scale="0 0 0">
           </a-entity>
@@ -116,7 +116,6 @@
           </a-entity>
           <!-- <a-entity id="test-glass" gltf-model="#glass-test" scale="20 20 20" rotation="0 -90 0" position="0 -8 -20" basic-env>
           </a-entity> -->
-          <!-- <a-entity id="floor-water" gltf-model="#base-water" scale="20 20 20" rotation="0 -90 0" position="0 -9 -20" basic-env></a-entity> -->
           <a-entity id="sculpture-parent" scale="1.4 1.4 1.4" position="0 50 15">
             <a-box id="sculpture-collider" sculpture-controller class="hoverable" scale="0 0 0" visible="false" height="8" width="4" depth="4" position="0 0 -4" color="white"></a-box>
             <!-- <a-entity id="sculpture-item" basic-env gltf-model="#sculpture-item-model" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity> -->

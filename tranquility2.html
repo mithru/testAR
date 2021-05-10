@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Tranquility</title>
+  <meta name="description" content="360&deg; Scene">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+  <script src="https://use.fontawesome.com/b02497ddcc.js"></script>
+
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-event-set-component@5/dist/aframe-event-set-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-layout-component@5.3.0/dist/aframe-layout-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-template-component@3.2.1/dist/aframe-template-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-lerp-component/dist/aframe-lerp-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+
+  <!-- <script type="module" src="https://unpkg.com/three@0.127.0/examples/jsm/loaders/EXRLoader.js"></script> -->
+  <!-- <script src="cubemap-static.js"></script> -->
+  <!--
+    <script src="onhover-disappear.js"></script>
+    <script src="dashboard-item.js"></script>
+    <script src="main-transform.js"></script>
+    <script type="module"  src="custom-env.js"></script>-->
+  <script src="js/place-door.js"></script>
+  <script src="js/hider-material.js"></script>
+  <script src="js/pages-nav.js"></script>
+  <script src="js/sculpture-controller.js"></script>
+  <script src="js/door-hover.js"></script>
+
+  <!-- <script src="js/basic-env.js"></script> -->
+  <script src="js/animation-mixer.js"></script>
+  <script src="js/dashboard-item.js"></script>
+  <script src="js/drag-rot.js"></script>
+  <script type="module" src="js/custom-env.js"></script>
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body onload="runVideo()">
+  <div id="container">
+    <video autoplay="true" id="videoElement"></video>
+  </div>
+  <!-- device-orientation-permission-ui -->
+  <!-- custom-env -->
+  <a-scene custom-env id="main-scene" loading-screen="dotsColor: white;
+                  backgroundColor: black;
+                  enabled: false" vr-mode-ui="enabled: false" webxr="referenceSpaceType: viewer" place-door>
+    <a-assets>
+      <a-asset-item id="testModel" src="assets/glbs/shared/reflective-sphere.gltf"></a-asset-item>
+
+
+      <a-asset-item id="door1-model" src="assets/glbs/doors/door_awakening.glb"></a-asset-item>
+      <a-asset-item id="door2-model" src="assets/glbs/doors/door_desert.glb"></a-asset-item>
+
+      <!-- door assets -->
+      <a-asset-item id="door-cutout" src="assets/glbs/shared/door_cutout.glb"></a-asset-item>
+      <a-asset-item id="door-frame" src="assets/glbs/shared/B_door_frame_relaxation_updated.glb"></a-asset-item>
+      <a-asset-item id="door-shadow" src="assets/glbs/shared/door_shadow.glb"></a-asset-item>
+      <!-- end of door assets -->
+      <a-asset-item id="glass-test" src="assets/glbs/shared/glass-test.glb"></a-asset-item>
+
+      <!-- platform assets -->
+      <a-asset-item id="base" src="assets/glbs/tranquility/platform.tranquility_thin.glb"></a-asset-item>
+      <!-- <a-asset-item id="base" src="assets/glbs/tranquility/test-platform.glb"></a-asset-item> -->
+      <a-asset-item id="base-water" src="assets/glbs/tranquility/platform_water.glb"></a-asset-item>
+      <!-- end of platform assets -->
+
+      <!-- sculpture assets -->
+      <!-- <a-asset-item id="sculpture-transform-model" src="assets/glbs/tranquility/sculpture/B_Tranquility_fly.glb"></a-asset-item>
+      <a-asset-item id="sculpture-intro-model" src="assets/glbs/tranquility/sculpture/B_Tranquility_intro.glb"></a-asset-item>
+      <a-asset-item id="sculpture-idle-model" src="assets/glbs/tranquility/sculpture/B_Tranquility_idle.glb"></a-asset-item> -->
+      <!-- end of sculpture assets -->
+
+      <!-- sculpture assets -->
+      <a-asset-item id="sculpture-item-model" src="assets/glbs/tranquility/sculpture-items/B_Tranquility.glb"></a-asset-item>
+
+      <a-asset-item id="sculpture-item-model1" src="assets/glbs/tranquility/sculpture-items/B_Item.01.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model2" src="assets/glbs/tranquility/sculpture-items/B_Item.02.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model3" src="assets/glbs/tranquility/sculpture-items/B_Item.03.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model4" src="assets/glbs/tranquility/sculpture-items/B_Item.04.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model5" src="assets/glbs/tranquility/sculpture-items/B_Item.05.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model6" src="assets/glbs/tranquility/sculpture-items/B_Item.06.glb"></a-asset-item>
+      <a-asset-item id="sculpture-item-model7" src="assets/glbs/tranquility/sculpture-items/B_Item.07.glb"></a-asset-item>
+      <a-asset-item id="sculpture-config-model" src="assets/glbs/tranquility/sculpture-items/B_configuration.glb"></a-asset-item>
+      <!-- end of sculpture assets -->
+
+      <!-- product assets -->
+      <a-asset-item id="model-item-1" src="assets/glbs/tranquility/products/26286.glb"></a-asset-item>
+      <a-asset-item id="model-item-2" src="assets/glbs/tranquility/products/26294.glb"></a-asset-item>
+      <a-asset-item id="model-item-3" src="assets/glbs/tranquility/products/26300.glb"></a-asset-item>
+      <a-asset-item id="model-item-4" src="assets/glbs/tranquility/products/26347.glb"></a-asset-item>
+      <!-- <a-asset-item id="lake-config" src="assets/glbs/lake/products/configuration2.glb"></a-asset-item> -->
+      <!-- end of product assets -->
+
+      <img id="skybox" src="assets/hdri/tranquility/360-045.jpg">
+      <img id="skybox2" src="assets/hdri/tranquility/360-altblur-flipped.png">
+
+    </a-assets>
+    <a-entity id="cam-parent" position="0 0 0">
+      <a-camera id="camera" position="0 4 0">
+        <a-cursor scale="1 1 1" visible="false" raycaster="objects: .hoverable"></a-cursor>
+      </a-camera>
+    </a-entity>
+    <!-- <a-entity light="type: ambient; intensity: 1;"></a-entity> -->
+    <!-- <a-light type="hemisphere" color="#aaa6ff"></a-light> -->
+
+    <a-entity id="parent" position="0 -6 0">
+      <a-entity id="all-content" position="0 0 -12" scale="1.5 1.5 1.5">
+
+        <a-entity id="all-walls">
+          <a-entity id="walls-door">
+            <a-plane id="door-collider" class="hoverable" height="8" width="4" position="0 5 -0.1" scale="0 0 0" visible="false"></a-plane>
+            <a-entity id="door-pre-portal" gltf-model="#door-cutout" scale="5 5 5" xrextras-hider-material>
+            </a-entity>
+            <a-entity id="doorframe" position="0 0 0.75" scale="5 5 5" gltf-model="#door-frame" basic-env>
+              <!--<a-image id="walkin-arrow" src="#arrow" width="0.1" height="0.1" visible="false" position="0.2 -0.24 -1.1"></a-image>-->
+              <!--<a-text id="walkin-text" value="Walk Inside" scale=".5 .5 .5" visible="false" position="0 -0.4 -1" align="center"></a-text>-->
+            </a-entity>
+            <a-entity id="doorshadow" position="0 0.05 0.9" scale="5 5 0" gltf-model="#door-shadow" basic-env>
+            </a-entity>
+            <a-plane id="hider-stage-top" width="50" height="10" position="0 15 0" xrextras-hider-material></a-plane>
+            <a-plane id="hider-stage-left" width="20" height="10" position="-15 5 0" xrextras-hider-material></a-plane>
+            <a-plane id="hider-stage-right" width="20" height="10" position="15 5 0" xrextras-hider-material></a-plane>
+          </a-entity>
+          <a-entity id="walls-other">
+            <a-plane id="hider-behind" width="50" height="20" rotation="0 180 0" position="0 10 30" xrextras-hider-material></a-plane>
+            <a-plane id="hider-top" width="50" height="30" rotation="90 0 0" position="0 20 15" xrextras-hider-material></a-plane>
+            <a-plane id="hider-bottom" width="50" height="30" rotation="-90 0 0" position="0 0 15" xrextras-hider-material></a-plane>
+            <a-plane id="hider-left" width="30" height="20" rotation="0 90 0" position="-25 10 15" xrextras-hider-material></a-plane>
+            <a-plane id="hider-right" width="30" height="20" rotation="0 -90 0" position="25 10 15" xrextras-hider-material></a-plane>
+          </a-entity>
+        </a-entity>
+        <a-entity id="portal-contents" position="0 0 0">
+          <a-entity id="camFinalPos" scale="0 0 0" position="0 4 0">
+          </a-entity>
+
+          <!-- <a-entity id="portal-contents"> -->
+          <!-- <a-entity id="test" gltf-model="#testModel" scale="5 5 5" rotation="0 -90 0" position="0 0 -20" basic-env></a-entity> -->
+          <a-entity id="floor" gltf-model="#base" scale="20 5 20" rotation="0 -90 0" position="0 -6.5 -20" basic-env>
+          </a-entity>
+
+          <a-entity id="door1" class="hoverable" door-hover="name:Renewal; bgID: world1-bg; rot:-145" gltf-model="#door1-model" scale="0 0 0">
+            <a-box id="door1-collider" class="hoverable" visible="false" height="8" width="2" depth="4" position="0 0 -5" color="white" ></a-box>
+          </a-entity>
+          <a-entity id="door2" class="hoverable" door-hover="name:Awakening; bgID: world2-bg; rot:-35" gltf-model="#door2-model" scale="0 0 0">
+            <a-box id="door2-collider" class="hoverable"  visible="false" height="8" width="2" depth="4" position="0 0 -5" color="white" ></a-box>
+          </a-entity>
+          <!-- <a-entity id="test-glass" gltf-model="#glass-test" scale="20 20 20" rotation="0 -90 0" position="0 -8 -20" basic-env>
+          </a-entity> -->
+          <!-- <a-entity id="floor-water" gltf-model="#base-water" scale="20 20 20" rotation="0 -90 0" position="0 -9 -20" basic-env></a-entity> -->
+          <a-entity id="sculpture-parent" scale="1.4 1.4 1.4" position="0 50 15">
+            <a-box id="sculpture-collider" sculpture-controller class="hoverable" scale="0 0 0" visible="false" height="8" width="4" depth="4" position="0 0 -4" color="white"></a-box>
+            <!-- <a-entity id="sculpture-item" basic-env gltf-model="#sculpture-item-model" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity> -->
+
+            <a-entity id="sculpture-item1" basic-env gltf-model="#sculpture-item-model1" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item2" basic-env gltf-model="#sculpture-item-model2" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item3" basic-env gltf-model="#sculpture-item-model3" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item4" basic-env gltf-model="#sculpture-item-model4" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item5" basic-env gltf-model="#sculpture-item-model5" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item6" basic-env gltf-model="#sculpture-item-model6" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-item7" basic-env gltf-model="#sculpture-item-model7" scale="7 7 7" rotation="0 0 0" position="0 0 0"></a-entity>
+            <a-entity id="sculpture-config" basic-env gltf-model="#sculpture-config-model" scale="7 7 7" rotation="0 0 0" position="0 0 0">
+              <a-entity id="sculpture-config-item4" gltf-model="#model-item-4" scale=".01 .01 .01" position="0.5 1 -0.05" rotation="0 -90 0">
+              </a-entity>
+            </a-entity>
+
+            <a-box id="sculpture-collider-2" class="hoverable" scale="0 0 0" visible="false" height="25" width="8" depth="8" position="3 0 -5" color="white"></a-box>
+          </a-entity>
+
+          <!--gltf-model="#lake-item-1"-->
+          <a-entity id="item1" gltf-model="#model-item-1" scale="0.2 0.2 0.2" position="8 11.5 -23.6" rotation="0 -90 0" visible="true" basic-env dashboard-item="name: Single Function <br> Handshower;
+            itemFinish: Shown in Brushed Nickel;
+            infoText: Statement Collection;
+              collider: collider-item1;
+              dist: 20;
+              final:10;
+              delayIn:500;
+              delayOut:1500;
+              rot: -180">
+            <a-box id="collider-item1" class="hoverable" visible="false" height="30" width="10" depth="10" position="0 0 -3" color="white"></a-box>
+          </a-entity>
+          <a-entity id="item2" gltf-model="#model-item-2" visible="true" scale="0.2 0.2 0.2" position="0 15.5 -30.5" rotation="90 0 0" dashboard-item='name: Single Function <br> Rainhead: Oblong 12";
+            itemFinish: Shown in Brushed Nickel;
+            infoText: Statement Collection;
+              collider: collider-item2;
+              dist: 30;
+              final:18;
+              middlePos: true;
+              delayIn:1000;
+              delayOut:1500;
+              rot: -45'>
+            <a-box id="collider-item2" class="hoverable" visible="false" height="30" width="10" depth="10" position="0 0 -3" color="white"></a-box>
+          </a-entity>
+          <a-entity id="item3" gltf-model="#model-item-3" visible="true" scale=".2 .2 .2" position="0 7.5 -34" rotation="0 0 0" dashboard-item='name: Vichy Body Spray;
+          itemFinish: Shown in Brushed Nickel;
+          infoText: Statement Collection;
+              collider: collider-item3;
+              dist: 30;
+              final:15;
+              delayIn:1500;
+              delayOut:1000;
+              rot: -135'>
+            <a-box id="collider-item3" class="hoverable" visible="false" height="30" width="10" depth="10" position="0 0 -3" color="white"></a-box>
+          </a-entity>
+          <a-entity id="item4" gltf-model="#model-item-4" visible="true" scale=".2 .2 .2" position="10 5 -20" rotation="0 90 0" dashboard-item='name: Mechanical Control: <br> 3-Outlet;
+          itemFinish: Shown in Brushed Nickel;
+          infoText: Anthem Collection;
+            collider: collider-item4;
+            dist: 30;
+            final:15;
+            delayIn:2000;
+            delayOut:500;
+            rot: 0'>
+            <a-box id="collider-item4" class="hoverable" visible="false" height="30" width="10" depth="10" position="0 0 -3" color="white"></a-box>
+          </a-entity>
+          <!-- <a-entity id="config" gltf-model="#lake-config" scale="5 5 5" visible="false" rotation="0 35 0" position="0 2 -20" cubemap>
+              <a-box id="collider-config" class="hoverable" visible="false" height="30" width="10" depth="10" position="0 0 0" color="white"></a-box>
+            </a-entity> -->
+          <!-- </a-entity> -->
+
+        </a-entity>
+      </a-entity>`
+      <a-sky id="skyEl" src="#skybox" rotation="0 90 0" opacity="1"></a-sky>
+      <a-sky id="skyElBlur" visible="true" src="#skybox2" rotation="0 90 0" scale="0.9 0.9 0.9" opacity="0"></a-sky>
+    </a-entity>
+    <a-sound id="background" src="src: url(https://dky5neca2x8co.cloudfront.net/Kohler-Studio/assets/sounds/lake/background.mp3)" autoplay="false" preload="auto" loop="true" position="0 2 -10"></a-sound>
+    <a-sound id="welcome" src="src: url(https://qreal-public.s3.amazonaws.com/Kohler-Studio/assets/sounds/welcome.mp3)" autoplay="false" preload="auto" loop="false" position="0 2 -10"></a-sound>
+    <a-sound id="intro" src="src: url(https://dky5neca2x8co.cloudfront.net/Kohler-Studio/assets/sounds/lake/intro.mp3)" autoplay="false" preload="auto" position="0 2 -10"></a-sound>
+
+  </a-scene>
+
+  <!--captions-->
+  <div id="welcome-captions">
+    <div id="welcome-cap-1" class="welcome-cap">
+      Welcome. As you immerse yourself in this space and the next,
+    </div>
+    <div id="welcome-cap-2" class="welcome-cap">
+      you'll discover the possibilities of creating balance through design.
+    </div>
+
+    <div id="intro-cap-1" class="welcome-cap">
+      Blurring the lines between the spaces we inhabit indoors or outdoors,
+    </div>
+    <div id="intro-cap-2" class="welcome-cap">
+      can instill a sense of peace and well-being.
+    </div>
+
+    <!--    <audio id="welcome" src="https://dky5neca2x8co.cloudfront.net/Kohler-Studio/assets/sounds/welcome.mp3">-->
+    <!--      <track id="welcome-track" label="English" kind="subtitles" srclang="en" src="assets/captions/vtt/kohler.vtt" default>-->
+    <!--    </audio>-->
+  </div>
+  <!--captions end-->
+
+  <!--overlay intro-->
+  <div id="permissions-bg">
+    <img class="permissions-img" src="assets/other/blurredBG-tranquility.jpg">
+    <div id="permissions-txt">This AR experience requires access <br> to your motion sensors and camera.</div>
+  </div>
+
+  <div id="world1-bg">
+    <img class="permissions-img" src="assets/other/blurredBG-renewal.jpg">
+    <div class="center-middle-text" id="new-world1-intro-text">Now entering the <br> space of Renewal</div>
+  </div>
+  <div id="world2-bg">
+    <img class="permissions-img" src="assets/other/blurredBG-awakening.jpg">
+    <div class="center-middle-text" id="new-world2-intro-text">Now entering the <br> space of Awakening</div>
+  </div>
+  <div id="other-portal-text">
+    <div id="other-title-2-1">
+      SPACE OF
+    </div>
+    <div id="other-title-2-2">
+
+    </div>
+  </div>
+  <!--end of overlay intro-->
+  <div id="ui-container">
+    <!-- initial instructions -->
+    <div id="intro-overlay">
+      <div id="intro-place-door">
+        <div id="pages">
+          <div class="page-marker" id="li-1"></div>
+          <!--<div class="page-marker" id="li-2"></div>-->
+          <div class="page-marker" id="li-3"></div>
+        </div>
+        <div id="desc_div">
+          <div id="desc1" class="intro-text">Find a well-lit space,<br>with room to move around.</div>
+          <!--<div id="desc1" class="intro-text">Find a well-lit space for optimal clarity.</div>-->
+          <!--<div id="desc2" class="intro-text" style="display: none;">Make sure the space is open enough the move around.</div>-->
+          <div id="desc3" class="intro-text" style="display: none;">Place the portal door<br>in your space.</div>
+        </div>
+        <div id="btn-next1">NEXT</div>
+        <!--<div id="btn-next2">NEXT</div>-->
+        <div id="intro-cta">PLACE DOOR</div>
+      </div>
+    </div>
+    <!--end of initial instructions-->
+
+
+    <!-- portal entrance instructions -->
+    <div id="portal-text">
+      <div id="title-1" class="title-flash-content">
+        Take a moment to look around.
+      </div>
+      <div id="title-2">
+        <div id="title-2-1">
+          SPACE OF
+        </div>
+        <div id="title-2-2">
+          Tranquility
+        </div>
+      </div>
+    </div>
+    <!--end of  portal entrance instructions-->
+
+    <!--portal top text-->
+    <div id="portal-top-text" class="tap-instructions">
+      Transform the <br>
+      sculpture
+    </div>
+    <div id="tap-item-text" class="tap-instructions">
+      Tap product
+    </div>
+    <div id="tap-config-text" class="tap-instructions">
+      Tap configuration
+    </div>
+    <div id="portal-change-text" class="tap-instructions">
+      Travel to <br> Space of
+      <span id="space-name"> Tranquility </span>
+    </div>
+    <div id="tap-to-enter-text" class="title-flash-content">
+      Tap to enter
+    </div>
+    <!--end of portal top text-->
+
+    <!--portal bottom buttons-->
+
+    <div id="portal-btm">
+      <a id="spaces">
+        <div id="spaces-button"><img id="spaces-icon" src="assets/icons/worlds.png" alt="" /></div>
+        <div id="spaces-txt">Spaces</div>
+      </a>
+      <a id="transform">
+        <div id="transform-button"><img id="transform-icon" src="assets/icons/transform.png" alt="" /></div>
+        <div id="transform-txt">Transform</div>
+      </a>
+      <a id="share">
+        <div id="share-button"><img id="share-icon" src="assets/icons/share.png" alt="" /></div>
+        <div id="share-txt">Share</div>
+      </a>
+    </div>
+    <!--end of portal bottom buttons-->
+
+    <!--portal reform button-->
+    <a id="portal-reform">
+      <div id="reform">
+        <div id="reform-button"><img id="reform-icon" src="assets/icons/reform.png" alt="" /></div>
+        <div id="reform-txt">Reform</div>
+      </div>
+    </a>
+    <!--end of portal reform button-->
+
+    <!--individual item screen-->
+    <div id="item-overlay">
+      <div id="item-desc">
+        <div id="prod-name"></div>
+        <div id="item-desc-2">Shown in Brushed Nickel</div>
+      </div>
+      <div id="info-button"><img class="info-icon" src="assets/icons/Info_Circle.svg" alt="" /><span id="info-text">Statement
+          Collection</span></div>
+      <div id="close-button"><img class="close-icon" src="assets/icons/close.png" alt="" /></div>
+    </div>
+    <!--end of individual item screen-->
+
+    <!--spaces menu-->
+    <div id="spaces-overlay">
+      <div id="spaces-close"><img class="close-icon" src="assets/icons/close.png" alt="" /></div>
+      <div id="spaces-container">
+        <div id="spaces-menu">
+          <div class="spaces-menu-item">
+
+            <div class="spaces-menu-l"><img id="spaces-checkbox-1" class="spaces-checkbox" src="https://qreal-s3public.s3.amazonaws.com/Kohler/assets/icons/Check.svg" alt="" /></div>
+            <div class="spaces-menu-r">
+              <div class="spaces-title">Tranquility</div>
+              <div class="spaces-text">A peaceful space that instills a sense of wellbeing</div>
+            </div>
+          </div>
+          <div class="spaces-menu-item">
+            <div class="spaces-menu-l"><img id="spaces-checkbox-2" class="spaces-checkbox" src="https://qreal-s3public.s3.amazonaws.com/Kohler/assets/other/renewal.png" alt="" /></div>
+            <div class="spaces-menu-r">
+              <div class="spaces-title">Renewal</div>
+              <div class="spaces-text">A space of invigorating scenes and inspiring design.</div>
+            </div>
+          </div>
+          <div class="spaces-menu-item">
+            <div class="spaces-menu-l"><img id="spaces-checkbox-3" class="spaces-checkbox" src="https://qreal-s3public.s3.amazonaws.com/Kohler/assets/other/awakening.png" alt="" /></div>
+            <div class="spaces-menu-r">
+              <div class="spaces-title">Awakening</div>
+              <div class="spaces-text">A space that invokes feelings of warmth through ubiquitous elements.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--end spaces menu-->
+
+    <a id="drag-icon-container">
+      <img id="drag-icon" src="assets/icons/move-small.png" alt="" />
+    </a>
+    <a id="tap-icon-container">
+      <img id="tap-icon" src="assets/icons/Tap-small.png" alt="" />
+    </a>
+
+    <!--portal overlay-->
+    <div id="portal-overlay">
+      <div id="audio-button"><img id="audio-icon" src="assets/icons/Audio.svg" alt="" /></div>
+      <div id="caption-button"><img id="caption-icon" src="assets/icons/ClosedCaptioning.svg" alt="" /></div>
+    </div>
+    <!--end of portal overlay-->
+
+    <div class="debug-overlay">
+      <div id="debug-text">debug console</div>
+      <div id="version-text">V1.1.5</div>
+    </div>
+  </div>
+  <script src="js/video-feed.js"></script>
+</body>
+
+</html>
